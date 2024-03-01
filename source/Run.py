@@ -23,7 +23,6 @@ class PF2CsvConverter:
     def __init__(self, filename):
         self.pf2_file = filename
         self.csv_file = None
-        self.run()
 
     def openStream(self, file, mode='r'):
         return open(str(file), str(mode))
@@ -95,3 +94,4 @@ if __name__ == "__main__":
                                           filetypes=(("pf2 files", "*.pf2"), ("all files", "*.*")))
 
     PF2CsvConverter = PF2CsvConverter(filePath)
+    PF2CsvConverter.run()
