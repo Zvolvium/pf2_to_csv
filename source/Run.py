@@ -22,7 +22,7 @@ from tkinter import filedialog
 class PF2CsvConverter:
     def __init__(self, filename):
         self.pf2_file = filename
-        self.csv_file = None
+        self.csv_file = self.getCsvFileName(filename)
 
     def openStream(self, file, mode='r'):
         return open(str(file), str(mode))
@@ -40,11 +40,11 @@ class PF2CsvConverter:
 
         return row
 
-    def getCsvFileName(self):
-        temp = self.pf2_file.strip().split('.')
+    def getCsvFileName(self, pf2_filename):
+        temp = pf2_filename.strip().split('.')
         temp.append('csv')
         temp.pop(-2)
-        self.csv_file = '.'.join(temp)
+        return '.'.join(temp)
 
     def getFieldNames(self, fieldNameLine):
         return fieldNameLine[7:-1].strip().split(', ')
@@ -67,7 +67,6 @@ class PF2CsvConverter:
     def run(self):
         try:
             tuple = self.getPF2Data(self.openStream(self.pf2_file))
-            self.getCsvFileName()
 
             with open(self.csv_file, 'w', newline='') as converted_file:
                 writer = DictWriter(converted_file, fieldnames=tuple[2])
@@ -77,11 +76,13 @@ class PF2CsvConverter:
                     writer.writerow(self.buildRow(tuple[2], tuple[0][j]))
 
             self.closeStream(converted_file)
-            print("Successfully converted the PF2 file to CSV")
+            print("\nSuccessfully converted the PF2 file to CSV")
+            print("\n -- Application closing in 5 seconds...")
             sleep(5)
         except Exception as e:
             print(e)
-            print(" -- Error: An UNEXPECTED ERROR has occured during the conversion of the file!\n\n")
+            print("\n -- Error: An UNEXPECTED ERROR has occured during the conversion of the file!\n")
+            print("\n -- Application closing in 20 seconds...")
             sleep(20)
 
 
