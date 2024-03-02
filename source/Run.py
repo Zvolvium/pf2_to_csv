@@ -20,9 +20,16 @@ from tkinter import filedialog
 
 
 class PF2CsvConverter:
-    def __init__(self, filename):
-        self.pf2_file = filename
-        self.csv_file = self.getCsvFileName(filename)
+    def __init__(self):
+        self.win = Tk()
+        self.win.geometry("50x25")
+        Label(self.win, text="File Dialog", font='Arial 16 bold').pack(pady=15)
+
+        filePath = filedialog.askopenfilename(title="Open a PF2 file",
+                                              filetypes=(("pf2 files", "*.pf2"), ("all files", "*.*")))
+
+        self.pf2_file = filePath
+        self.csv_file = self.getCsvFileName(filePath)
 
     def openStream(self, file, mode='r'):
         return open(str(file), str(mode))
@@ -87,12 +94,5 @@ class PF2CsvConverter:
 
 
 if __name__ == "__main__":
-    win = Tk()
-    win.geometry("50x25")
-    Label(win, text="File Dialog", font='Arial 16 bold').pack(pady=15)
-
-    filePath = filedialog.askopenfilename(title="Open a PF2 file",
-                                          filetypes=(("pf2 files", "*.pf2"), ("all files", "*.*")))
-
-    PF2CsvConverter = PF2CsvConverter(filePath)
+    PF2CsvConverter = PF2CsvConverter()
     PF2CsvConverter.run()
