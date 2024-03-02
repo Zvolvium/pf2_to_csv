@@ -27,6 +27,11 @@ class PF2CsvConverter:
 
         filePath = filedialog.askopenfilename(title="Open a PF2 file",
                                               filetypes=(("pf2 files", "*.pf2"), ("all files", "*.*")))
+        try:
+            self.check_filePath(filePath)
+        except ValueError as ve:
+            print(f"\n!!EXCEPTION: {ve}\n    -> {filePath}")
+            return
 
         self.pf2_file = filePath
         self.csv_file = self.getCsvFileName(filePath)
@@ -36,6 +41,11 @@ class PF2CsvConverter:
 
     def closeStream(self, stream):
         stream.close()
+
+    def check_filePath(self, path):
+        temp = path.strip().split('.')
+        if temp[-1] != 'pf2':
+            raise ValueError('File Selected is not a PF2 file!')
 
     def buildRow(self, headers, data):
         row = {}
@@ -87,10 +97,9 @@ class PF2CsvConverter:
             print("\n -- Application closing in 5 seconds...")
             sleep(5)
         except Exception as e:
-            print(e)
-            print("\n -- Error: An UNEXPECTED ERROR has occured during the conversion of the file!\n")
-            print("\n -- Application closing in 20 seconds...")
-            sleep(20)
+            print(f"\n!!EXCEPTION: {e}")
+            print("\n -- Application closing in 30 seconds...")
+            sleep(30)
 
 
 if __name__ == "__main__":
