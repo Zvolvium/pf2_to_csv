@@ -3,7 +3,7 @@
 
     Project Description: Converts a '.pf2' file to a '.csv'
 
-    Python Version: 3.11.0
+    Python Version(s): 3.11.0, 3.12
 
     Output: Output '.csv' File will be in the Same 'Folder' / 'Directory' as the Original '.pf2' File
 
